@@ -1,6 +1,6 @@
 
 const observer = document.querySelector("#root")
-// console.log(observer)
+console.log(observer)
 
 export default function smoothScroll() {
     const { height: cardHeight } = observer.lastElementChild.getBoundingClientRect();

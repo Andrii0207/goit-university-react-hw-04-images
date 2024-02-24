@@ -68,6 +68,7 @@ export class App extends Component {
     if (!this.state.images) {
       return;
     }
+    console.log('start smoothScroll');
     smoothScroll();
   };
 
