@@ -9,7 +9,7 @@ axios.defaults.params = {
     per_page: 12
 }
 
-export async function fetchImages(query, page = 1) {
+export async function fetchImages(query, page) {
     const { data } = await axios.get(`?q=${query}&page=${page}&key=${API_KEY}`)
     console.log(data)
     return data;

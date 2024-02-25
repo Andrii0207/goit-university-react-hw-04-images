@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { IoSearchOutline } from 'react-icons/io5';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,54 +11,50 @@ import {
   SearchInput,
 } from './Searchbar.styled';
 
-export default class Searchbar extends Component {
-  state = {
-    query: '',
+export default function Searchbar({ onSubmit }) {
+  const [query, setQuery] = useState('');
+
+  const handleChange = e => {
+    setQuery(e.currentTarget.value);
   };
 
-  handleChange = e => {
-    this.setState({ query: e.currentTarget.value });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    if (this.state.query.trim() === '') {
+    if (query.trim() === '') {
       toast.warn('Please, enter your query for search', {
         position: 'top-right',
         autoClose: 2000,
       });
     }
-    this.props.onSubmit(this.state.query);
-    this.setState({ query: '' });
+    onSubmit(query);
+    setQuery('');
   };
 
-  render() {
-    return (
-      <HeaderStyled onSubmit={this.handleSubmit}>
-        <SearchForm>
-          <SearchFormBTN type="submit">
-            <IoSearchOutline
-              style={{
-                width: '24px',
-                height: '24px',
-              }}
-            />
-            <ButtonLabel>Search</ButtonLabel>
-          </SearchFormBTN>
-
-          <SearchInput
-            type="text"
-            autoComplete="off"
-            autoFocus
-            value={this.state.query}
-            placeholder="Search images and photos"
-            onChange={this.handleChange}
+  return (
+    <HeaderStyled onSubmit={handleSubmit}>
+      <SearchForm>
+        <SearchFormBTN type="submit">
+          <IoSearchOutline
+            style={{
+              width: '24px',
+              height: '24px',
+            }}
           />
-        </SearchForm>
-      </HeaderStyled>
-    );
-  }
+          <ButtonLabel>Search</ButtonLabel>
+        </SearchFormBTN>
+
+        <SearchInput
+          type="text"
+          autoComplete="off"
+          autoFocus
+          value={query}
+          placeholder="Search images and photos"
+          onChange={handleChange}
+        />
+      </SearchForm>
+    </HeaderStyled>
+  );
 }
 
 Searchbar.propTypes = {
