@@ -11,7 +11,7 @@ axios.defaults.params = {
 
 export async function fetchImages(query, page) {
     const { data } = await axios.get(`?q=${query}&page=${page}&key=${API_KEY}`)
-    console.log(data)
+
     return data;
 }
 
