@@ -40,9 +40,12 @@ export function App() {
         setImages(prevImages => [...prevImages, ...hits]);
         setIsShowLoadMore(page < Math.ceil(totalHits / 12) ? true : false);
       })
-      .catch(error => setError(error))
+      .catch(err => {
+        setError(err);
+        return toast.error(`${error}`);
+      })
       .finally(setIsLoading(false));
-  }, [query, page]);
+  }, [query, page, error]);
 
   const handleOpenModal = ({ modalImg, textAlt }) => {
     setIsShowModal(true);

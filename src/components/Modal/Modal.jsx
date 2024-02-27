@@ -7,18 +7,18 @@ const modalRoot = document.querySelector('#modal-root');
 
 export default function Modal({ modalImg, textAlt, onCloseModal }) {
   useEffect(() => {
-    window.addEventListener('keydown', handlePressKey);
-  });
+    const handlePressESC = e => {
+      if (e.code === 'Escape') {
+        onCloseModal();
+      }
+    };
 
-  useEffect(() => {
-    window.addEventListener('keydown', handlePressKey);
-  });
+    window.addEventListener('keydown', handlePressESC);
 
-  const handlePressKey = e => {
-    if (e.code === 'Escape') {
-      onCloseModal();
-    }
-  };
+    return () => {
+      window.removeEventListener('keydown', handlePressESC);
+    };
+  }, [onCloseModal]);
 
   const handleOverlayClick = e => {
     if (e.target === e.currentTarget) {
