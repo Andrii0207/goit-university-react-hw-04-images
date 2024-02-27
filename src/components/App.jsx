@@ -7,6 +7,7 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import Modal from './Modal/Modal';
 import LoadMoreBTN from './Button/Button';
 import Spinner from './Loader/Loader';
+import ErrorNotification from './ErrorNotification/ErrorNotification';
 // import smoothScroll from './service/smoothScroll';
 
 export function App() {
@@ -40,12 +41,12 @@ export function App() {
         setImages(prevImages => [...prevImages, ...hits]);
         setIsShowLoadMore(page < Math.ceil(totalHits / 12) ? true : false);
       })
-      .catch(err => {
-        setError(err);
-        return toast.error(`${error}`);
+      .catch(error => {
+        console.log(error);
+        setError(error.response.data);
       })
-      .finally(setIsLoading(false));
-  }, [query, page, error]);
+      .finally(setIsLoading(false), setError(null));
+  }, [query, page]);
 
   const handleOpenModal = ({ modalImg, textAlt }) => {
     setIsShowModal(true);
@@ -96,6 +97,7 @@ export function App() {
           tag={textAlt}
         />
       )}
+      {error && <ErrorNotification error={error} />}
 
       <ToastContainer position="top-right" autoClose={2000} />
     </div>
